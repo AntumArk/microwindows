@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  microwin:
+    build: .
+    # Mounts current host directory to container, thus making source and build synced.
+    volumes:
+        - './src:/home/src'
+    #https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
+    # Enable shell
+    tty: true
+    stdin_open: true 
