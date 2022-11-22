@@ -1,8 +1,8 @@
-FROM ubuntu:latest AS build-stage
-
+FROM ubuntu:latest AS prepare-stage
 RUN echo "hello"
 # -y is for accepting installs
-
+WORKDIR /home/src
+ADD ./src /home/src
 # Update system
 RUN apt-get update && apt-get upgrade -y \
 	git \
@@ -22,12 +22,12 @@ RUN apt-get update && apt-get upgrade -y \
 # Set folder to git repo
 #WORKDIR microwindows/src
 # OR local copy
-WORKDIR /home/src
+
 
 # Copy config file
 # Change to something different if your system requires it
 #COPY config config
 
-
 # Build system
+FROM prepare-stage AS build-stage
 RUN make
