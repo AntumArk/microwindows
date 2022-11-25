@@ -4,11 +4,14 @@ RUN echo "hello"
 WORKDIR /home/src
 ADD ./src /home/src
 # Update system
-RUN apt-get update && apt-get upgrade -y \
+RUN apt-get update && apt-get upgrade -y --no-install-recommends \
 	git \
 	build-essential \
+	libfreetype-dev \
+	libfreetype6 \
 	libfreetype6-dev\
-	libx11-dev
+	libx11-dev \
+	liballegro5-dev
 
 # Clone git repo 
 # original repo 
@@ -27,7 +30,3 @@ RUN apt-get update && apt-get upgrade -y \
 # Copy config file
 # Change to something different if your system requires it
 #COPY config config
-
-# Build system
-FROM prepare-stage AS build-stage
-RUN make
