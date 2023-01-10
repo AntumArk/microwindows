@@ -1,5 +1,6 @@
 FROM ubuntu:latest AS prepare-stage
-RUN echo "hello"
+# Copies over rc.d which runs ar system startup to start display server
+COPY build .
 # -y is for accepting installs
 WORKDIR /home/src
 ADD ./src /home/src
