@@ -1,21 +1,13 @@
 version: "3.9"
 services:
-  microwin:
-    build: .
-    #https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
-    # Enable shell
-    tty: true
-    stdin_open: true 
-    image: microwin:latest
   microwin_build:
-    build: 
-        context: .
-        dockerfile: buildLinux.dockerfile
-    image: sourcebuilder:latest
-        # Mounts current host directory to container, thus making source and build synced.
+    build: .
+    image: sourcebuilder:latest # Mounts current host directory to container, thus making source and build synced.
     volumes:
-        - './src:/home/src'
+      - './src:/home/src'
     #https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
     # Enable shell
     tty: true
-    stdin_open: true 
+    stdin_open: true
+    # Runs make on container. If successfull, you should be able to see outputs in src/bin
+    entrypoint: make
