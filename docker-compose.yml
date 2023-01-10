@@ -11,3 +11,30 @@ services:
     stdin_open: true
     # Runs make on container. If successfull, you should be able to see outputs in src/bin
     entrypoint: make
+  # For linux systems
+  nanox_run:
+    image: nanox_run
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      DISPLAY: $DISPLAY
+    volumes:
+      - '${HOME}/.Xauthority:/home/project/.Xauthority'
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - './src:/home/src'
+    entrypoint: ./bin/nano-X
+  # For windows systems
+  # https://sourceforge.net/projects/xming/
+  nanox_run_win:
+    image: nanox_run_win
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      DISPLAY: $DISPLAY
+    volumes:
+      - '${HOME}/.Xauthority:/home/project/.Xauthority'
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - './src:/home/src'
+    entrypoint: ./bin/nano-X

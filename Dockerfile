@@ -5,7 +5,7 @@ COPY build .
 WORKDIR /home/src
 ADD ./src /home/src
 # Update system
-RUN apt-get update && apt-get upgrade -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
 	git \
 	build-essential \
 	libfreetype-dev \
@@ -14,20 +14,20 @@ RUN apt-get update && apt-get upgrade -y --no-install-recommends \
 	libx11-dev \
 	liballegro5-dev
 
-# Clone git repo 
-# original repo 
-# RUN git clone https://github.com/ghaerr/microwindows
-# fork 
-#RUN git clone https://github.com/AntumArk/microwindows
+FROM prepare-stage AS displaysetup-stage
+# Source https://github.com/makerspacelt/pcb-mill/blob/master/workstation/Dockerfile
+ENV XAUTHORITY /home/project/.Xauthority
+## for apt to be noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
 
-# Other option is to copy from current dir. COPY . .
-#COPY . .
-
-# Set folder to git repo
-#WORKDIR microwindows/src
-# OR local copy
-
-
-# Copy config file
-# Change to something different if your system requires it
-#COPY config config
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	libx11-xcb1 \
+	libxtst6 \
+	libasound2 \
+	x11-apps \
+	xvfb \
+	xauth \
+	xterm 
+# Change user so you could run GUI
+#USER project
